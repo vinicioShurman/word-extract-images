@@ -5,12 +5,6 @@ import docx2txt
 # This code extracts all images of all files in the directory the script is running
 
 def find_word_files(directory):
-    # Check if the specified directory exists
-    if not os.path.exists(directory):
-
-        print(f"Falha ao encontrar o diretorio: '{directory}'")
-        return []
-
     word_files = []
 
     # List all files in the directory
@@ -31,18 +25,9 @@ else:
 
 word_files_found = find_word_files(directory_path)
 
-
-if word_files_found:
-    print("Arquivos encontrados em {}: {}".format(directory_path, word_files_found))
-else:
-    print("Nenhum arquivo .doc ou .docx encontrado no diretorio")
-
 for word in word_files_found:
     folder_path = os.path.join(directory_path, "Imagens_" + word)
 
     os.makedirs(folder_path, exist_ok=True)
 
     text = docx2txt.process(word, folder_path)
-
-print("Imagens extraidas!")
-input("")
