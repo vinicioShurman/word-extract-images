@@ -1,4 +1,5 @@
 import os
+import sys
 import docx2txt
 
 # This code extracts all images of all files in the directory the script is running
@@ -6,6 +7,7 @@ import docx2txt
 def find_word_files(directory):
     # Check if the specified directory exists
     if not os.path.exists(directory):
+
         print(f"Falha ao encontrar o diretorio: '{directory}'")
         return []
 
@@ -20,7 +22,12 @@ def find_word_files(directory):
     return word_files
 
 # Get the directory of the current script '__file__' is special variable in Python holds the path of the script that is currently being executed.
-directory_path = os.path.dirname(os.path.abspath(__file__))
+if getattr(sys, 'frozen', False):
+    # Running as compiled executable
+    directory_path = os.path.dirname(sys.executable)
+else:
+    # Running as a regular Python script
+    directory_path = os.path.dirname(os.path.abspath(__file__))
 
 word_files_found = find_word_files(directory_path)
 
@@ -36,3 +43,6 @@ for word in word_files_found:
     os.makedirs(folder_path, exist_ok=True)
 
     text = docx2txt.process(word, folder_path)
+
+print("Imagens extraidas!")
+input("")
